@@ -1,5 +1,3 @@
-// components/header.jsx
-import { Suspense } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "./ui/button";
@@ -7,8 +5,7 @@ import { PenBox } from "lucide-react";
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
 import UserMenu from "./user-menu";
 import { checkUser } from "@/lib/checkUser";
-import CreateEventDrawer from "./create-event";
-
+import CreateEventMount from "./create-event-mount"; // ← this file you just added
 
 const Header = async () => {
   await checkUser();
@@ -18,8 +15,8 @@ const Header = async () => {
       <Link href="/" className="flex items-center">
         <Image
           src="/logo.png"
-          width="150"
-          height="60"
+          width={150}
+          height={60}
           alt="Schedulrr Logo"
           className="h-16 w-auto"
         />
@@ -44,10 +41,8 @@ const Header = async () => {
         </SignedIn>
       </div>
 
-      {/* Suspense wrapper fixes the Vercel build warning for useSearchParams */}
-      <Suspense fallback={null}>
-        <CreateEventDrawer />
-      </Suspense>
+      {/* Client-only drawer */}
+      <CreateEventMount />
     </nav>
   );
 };
